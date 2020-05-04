@@ -39,6 +39,13 @@ def cv_make_move():
             show()
     list_of_xy.clear()
 
+# Create csv file with human game
+def make_csv(x, y):
+    X_array.append(x)
+    Y_array.append(y)
+    if len(X_array) > 70:
+        stacked_array = np.column_stack((X_array, Y_array))
+        np.savetxt("human_game.csv", stacked_array, delimiter=',')
 
 # Detect hand on video
 def computer_vision():
@@ -174,6 +181,9 @@ clock = pygame.time.Clock()
 my_font = pygame.font.SysFont('Verdana.ttf', 50)
 score_font = pygame.font.SysFont('Verdana.ttf', 50)
 
+X_array = []
+Y_array = []
+
 
 def show():
     pygame.draw.rect(screen, white, title_rec)
@@ -218,12 +228,16 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     Logic_2048.up()
+                    make_csv(Logic_2048.arr.flatten(), 1)
                 if event.key == pygame.K_DOWN:
                     Logic_2048.down()
+                    make_csv(Logic_2048.arr.flatten(), 2)
                 if event.key == pygame.K_LEFT:
                     Logic_2048.left()
+                    make_csv(Logic_2048.arr.flatten(), 3)
                 if event.key == pygame.K_RIGHT:
                     Logic_2048.right()
+                    make_csv(Logic_2048.arr.flatten(), 4)
                 if event.key == pygame.K_c:
                     t_cv.start()
                 if event.key == pygame.K_s:
